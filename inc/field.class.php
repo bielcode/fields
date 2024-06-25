@@ -807,8 +807,6 @@ class PluginFieldsField extends CommonDBChild
         echo "<table class='tab_cadre_fixe'>";
         echo self::prepareHtmlFields($fields, $item, $canedit);
         
-        var_dump('810');
-
         if ($canedit) {
             echo "<tr><td class='tab_bg_2 center' colspan='4'>";
             echo "<input class='btn btn-primary' type='submit' name='update_fields_values' value=\"" .
@@ -852,7 +850,6 @@ class PluginFieldsField extends CommonDBChild
         echo Html::hidden('_plugin_fields_type', ['value' => $type]);
         echo Html::hidden('_plugin_fields_subtype', ['value' => $subtype]);
         echo self::prepareHtmlFields($fields, $item, true, true, false, $field_options);
-        var_dump('855');
     }
 
     /**
@@ -1328,8 +1325,6 @@ JAVASCRIPT
         $item->getEmpty();
 
         echo self::prepareHtmlFields($fields, $item, true, false, $massiveaction);        
-        var_dump('1311');
-
 
         return true;
     }
