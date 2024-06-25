@@ -806,6 +806,8 @@ class PluginFieldsField extends CommonDBChild
         echo Html::hidden('itemtype', ['value' => $item->getType()]);
         echo "<table class='tab_cadre_fixe'>";
         echo self::prepareHtmlFields($fields, $item, $canedit);
+        
+        var_dump('810');
 
         if ($canedit) {
             echo "<tr><td class='tab_bg_2 center' colspan='4'>";
@@ -850,6 +852,7 @@ class PluginFieldsField extends CommonDBChild
         echo Html::hidden('_plugin_fields_type', ['value' => $type]);
         echo Html::hidden('_plugin_fields_subtype', ['value' => $subtype]);
         echo self::prepareHtmlFields($fields, $item, true, true, false, $field_options);
+        var_dump('855');
     }
 
     /**
@@ -970,7 +973,7 @@ class PluginFieldsField extends CommonDBChild
                             if (!(name in obj)) {
                                 obj[name] = [];
                             }
-                            obj[name].push(item.value);
+                            obj[name].push(item.value);  
                         } else {
                             obj[item.name] = item.value;
                         }
@@ -1056,6 +1059,8 @@ JAVASCRIPT
         $massiveaction = false,
         $field_options = []
     ) {
+        /** @var DBmysql $DB */
+        global $DB;
 
         if (empty($fields)) {
             return false;
@@ -1156,6 +1161,30 @@ JAVASCRIPT
                     ];
                 } else {
                     $value = $found_v[$field['name']] ?? "";
+                    //Check if field is Group or User and alter actors
+                    if($found_v['itemtype'] == 'Ticket'){
+                      $ticket_id = $found_v['items_id'];
+                      if(str_starts_with($field['name'], 'groups_id')){
+                          $DB->update(
+                            'glpi_groups_tickets', [
+                               'groups_id'      => $value,
+                            ], [
+                              'tickets_id' => $ticket_id,
+                              'type' => CommonITILActor::ASSIGN
+                            ]
+                          );                   
+                      } elseif(str_starts_with($field['name'], 'users_id')) {
+                          $DB->update(
+                            'glpi_tickets_users', [
+                              'users_id'      => $value,
+                            ], [
+                              'tickets_id' => $ticket_id,
+                              'type' => CommonITILActor::ASSIGN
+                            ]
+                          );                        
+                      }
+                    }
+                    
                 }
             }
 
@@ -1298,7 +1327,9 @@ JAVASCRIPT
         $item = new $itemtype();
         $item->getEmpty();
 
-        echo self::prepareHtmlFields($fields, $item, true, false, $massiveaction);
+        echo self::prepareHtmlFields($fields, $item, true, false, $massiveaction);        
+        var_dump('1311');
+
 
         return true;
     }
