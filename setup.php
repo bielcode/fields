@@ -28,7 +28,7 @@
  * -------------------------------------------------------------------------
  */
 
-define('PLUGIN_FIELDS_VERSION', '1.21.10');
+define('PLUGIN_FIELDS_VERSION', '1.22.0');
 
 // Minimal GLPI version, inclusive
 define("PLUGIN_FIELDS_MIN_GLPI", "10.0.0");
@@ -200,8 +200,8 @@ function plugin_version_fields()
     return [
         'name'           => __("Additional fields", "fields"),
         'version'        => PLUGIN_FIELDS_VERSION,
-        'author'         => 'Teclib\', Olivier Moron',
-        'homepage'       => 'https://github.com/pluginsGLPI/fields',
+        'author'         => 'Teclib\', Olivier Moron, Gabriel Carneiro',
+        'homepage'       => 'https://github.com/bielcode/fields',
         'license'        => 'GPLv2+',
         'requirements'   => [
             'glpi' => [
